@@ -2,9 +2,13 @@
 import Button from '@mui/material/Button';
 // import { useEffect, useState } from 'react';
 import {Formik} from 'formik';
+
 // import { Navigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import axios from "axios";
+import {toast} from 'react-toastify';
 import * as Yup from "yup";//for validation
+import { useEffect, useState } from 'react';
 export const Apple = () => {
     // const Navigate = useNavigate()
     // const[name,setName]=useState("");
@@ -13,21 +17,74 @@ export const Apple = () => {
     //     const newdata=event.target.value;
     //     setName(newdata);
     // }
+    const [user,setUser]=useState([]);
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/posts").then((res)=>{
+            console.log("user details: ",res.data);
+            setUser(res.data);
+        });
+    },[]);
     //for validation 
     const validationSchema=Yup.object().shape(
     {
-        name:Yup.string().min(3,"enter nanme with min char 3"),
-        email:Yup.string().email("enter valid email"),
+        name:Yup.string().min(3,"enter nanme with min char 3").required("required"),
+        email:Yup.string().email("enter valid email").required("plese enter email"),
 
     });
     const initialValues={
         name:"",
         email:"",
     };
-    const onFormSubmit=(values)=>{
+    //async await one call after amother
+    const onFormSubmit=async(values)=>{
+        //call apito submit form
+        const requestData={
+   userName:values.name,
+   userEmail:values.email,
+        };
+        //when create record use post(send all data)
+        //data update put
+        //nothing executes until get res of this post
+        //when get res add in res then executes next one
+      const res =await axios.post("https://jsonplaceholder.typicode.com/posts",requestData);
+    //   .then((res)=>
+    //     // {
+            if(res.status=== 201){
+            console.log(res.data.id);
+            toast.success('🦄 Registered ! ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
+           }
+        //     //configuration of style
+        // }).catch();
+        // catch for erro
+        axios.delete("https://jsonplaceholder.typicode.com/posts/1").then((res)=>{
+            if(res.status===200){
+                
+                toast.success('🦄 deletion completed ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
+
+            }
+        });
          console.log("values are",values);
-         alert("submitted");
+        //  alert("submitted");
     }
+    //toastify axios
     // const onHomePageButtonClick = () =>{
     //     // Navigate("/");
     //     console.log('You clicked Home button');
@@ -60,6 +117,15 @@ export const Apple = () => {
             )}
      </Formik>
      {/* <button onClick={ onHomePageButtonClick}>Navigate to Home Page</button> */}
+   
+    <div>
+           {user.map((item)=>(
+            <div key={item.id}>
+                {/* {/* <h3>{item.body}</h3> */}
+                {/* <h3>{item.title}</h3>  */}
+            </div>
+           ))}
+    </div>
     </div>
     );
 }; 

@@ -7,6 +7,8 @@ import {BrowserRouter, Route,Routes,Link} from 'react-router-dom';
 import { NotFound } from './NotFound';
 import {ThemeProvider} from '@emotion/react';
 import {theme} from './styles';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
@@ -14,6 +16,7 @@ function App() {
       {/* <Button>font-size: 1rem</Button> */}
     {/* <img src={'${process.env.REACT_APP_HOSTED_URL}logo192.png'} alt="React logo"/> */}
      {/* <img src={logo} alt="image"/>  */}
+    <ToastContainer/>
     <BrowserRouter>
     <div  
       // style={{padding:25, display: 'flex', columnGap:10}}

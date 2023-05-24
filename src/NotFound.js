@@ -1,1 +1,6 @@
-export const NotFound=()=><div>404 Page Not Found</div>
+import Register from "./pages/Register";
+
+export const NotFound=()=><div>
+  
+  <Register/>
+  </div>
