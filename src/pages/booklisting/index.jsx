@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { productListingStyle } from "./style";
+
 import {
   FormControl,
   Grid,
@@ -10,17 +10,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-// import { useAuthContext } from "../../context/auth";
-// import { materialCommonStyles } from "../../utils/materialCommonStyles";
 import { defaultFilter } from "../../constants/constant";
 import categoryService from "../../services/category.service";
 import bookService from "../../services/book.service";
 
 export const BookListing = () => {
-  // const authContext = useAuthContext();
-  // const cartContext = useCartContext();
-  const classes = productListingStyle();
-  // const materialClasses = materialCommonStyles();
+
   const [bookResponse, setBookResponse] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -99,7 +94,7 @@ export const BookListing = () => {
   };
 
   return (
-    <div className={classes.productListWrapper}>
+    <div >
       <div className="container">
         <Typography variant="h1">Book Listing</Typography>
         <Grid container className="title-wrapper">
