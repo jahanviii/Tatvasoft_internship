@@ -1,54 +1,74 @@
-import './App.css';
+import './App.css'
 //import { globalStyles } from './constants';
 //import {} from "./AppStylemodule.css"
-import Apple from './Apple';
-import Home from './Home';
-import {BrowserRouter, Route,Routes,Link} from 'react-router-dom';
-import { NotFound } from './NotFound';
+
+import {BrowserRouter} from 'react-router-dom';
+// import { NotFound } from './NotFound';
 import {ThemeProvider} from '@emotion/react';
 import {theme} from './styles';
-import { ToastContainer} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import Header from './components/Header/Header';
+ import Footer from './components/footer/Footer';
+import MainNavigation from './MainNavigation';
+import { AuthWrapper } from './context/auth.context';
+// import { BookListing } from './pages/booklisting';
+// import Header from './components/Header';
 function App() {
+ 
   return (
-    <>
+    <BrowserRouter>
+ <AuthWrapper>
     <ThemeProvider theme={theme}>
       {/* <Button>font-size: 1rem</Button> */}
     {/* <img src={'${process.env.REACT_APP_HOSTED_URL}logo192.png'} alt="React logo"/> */}
      {/* <img src={logo} alt="image"/>  */}
-    <ToastContainer/>
-    <BrowserRouter>
-    <div  
+   
+    <Header/>
+    {/* <BrowserRouter> */}
+    {/* <Header/> */}
+    {/* <Header/> */}
+    {/* <div  
       // style={{padding:25, display: 'flex', columnGap:10}}
       className='nav' 
       // style={{...globalStyles.nav,}}
     >
-      <Link to='/'
+       <Link to='/login'
       style={{
-        marginLeft: 5,
-      }}>
-        Home</Link>
+        marginLeft: 15,
+      }}>Login</Link>
       <Link to='/apple'
       style={{ 
         marginLeft: 10,
       }}>
         Apple</Link>
-        <Link to='/applet'
+        <Link to='/register'
       style={{
         marginLeft: 15,
       }}>
-        Applet</Link>
-    </div>
-    <Routes >
-      <Route path='/' element={<Home/>}></Route>
+        Register</Link> */}
+        {/* <Link to='/booklisting'
+      style={{
+        marginLeft: 15,
+      }}>booklisting</Link> */}
+    {/* </div> */}
+    {/* <Routes >
+    <Route path='/l' element={<Update/>}></Route>
+      <Route path='/login' element={<Login/>}></Route>
       <Route path='/apple' element={<Apple/>}></Route>
-      <Route path='*' element={<NotFound/>}></Route>
-    </Routes>
-  </BrowserRouter>
+      <Route path='/register' element={<Register/>}></Route>
+      <Route path='/update' element={<UpdateProfile/>}></Route>
+      {/* <Route path='/booklisting' element={<BookListing/>}></Route> */}
+ <main>
+ <MainNavigation/>
+ </main>
+  
+    <Footer/>
+    <ToastContainer/>
   </ThemeProvider>
-  </>
+  </AuthWrapper>
+  </BrowserRouter>
   );
 };
-
-
 export default App;
