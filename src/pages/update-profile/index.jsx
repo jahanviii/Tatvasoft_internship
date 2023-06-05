@@ -26,15 +26,6 @@ const UpdateProfile = () => {
     newPassword: "",
     confirmPassword: ""
   }
-
-  // const [initialValueState, setinitialValueState] = useState({
-  //     email: user.email,
-  //     firstName: user.firstName,
-  //     lastName: user.lastName,
-  //     newPassword: "",
-  //     confirmPassword: ""
-  //   }
-  // );
   const [updatePassword, setUpdatePassword] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -43,7 +34,7 @@ const UpdateProfile = () => {
       .required("Email is required"),
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    newPassword: Yup.string().min(5, "Minimum 5 charactor is required"),
+    newPassword: Yup.string().min(5, "Minimum 5 character is required"),
     confirmPassword: updatePassword
       ? Yup.string()
           .required("Must required")
@@ -71,9 +62,10 @@ const UpdateProfile = () => {
         <Formik
           initialValues={initialValueState}
           validationSchema={validationSchema}
+          //user can change initialized value 
           enableReinitialize={true}
           onSubmit={onSubmit}
-          validator={() => ({})}
+          // validator={() => ({})}
         >
           {({
             values,
@@ -179,9 +171,7 @@ const UpdateProfile = () => {
                     type="submit"
                     color="primary"
                     disableElevation
-                    // onClick={() => {
-                    //  navigate("/");
-                    // }}
+                   
                   >
                     Save
                   </Button>

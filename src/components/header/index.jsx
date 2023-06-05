@@ -75,10 +75,12 @@ const Header = () => {
   return (
     <div className={classes.headerWrapper}>
       <AppBar className="site-header" id="header" position="static">
-        <div
+        
+        {/* <div
           className="top-header"
           style={{ display: open ? "none" : "block" }}
-        ></div>
+        ></div> */}
+        {/* logo */}
         <div className="bottom-header">
           <div className="container">
             <div className="header-wrapper">
@@ -87,11 +89,14 @@ const Header = () => {
                   <img src={siteLogo} alt="logo" />
                 </Link>
               </div>
+              {/* links */}
               <div className="nav-wrapper">
                 <div className="top-right-bar">
+                  {/* mui list */}
                   <List className="top-nav-bar">
                     {!authContext.user.id && (
                       <>
+                      {/* li in html */}
                         <ListItem>
                           <NavLink to={RoutePaths.Login} title="Login">
                             Login
