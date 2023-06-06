@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { colors } from "../../constant/constant";
-import Typography from '@mui/material/Typography';
-import { Button, CardMedia } from '@mui/material';
+
+//////////////////////////////////////////////
+import React, { useEffect, useState } from "react";
+import { cartStyle } from "./style";
+import { Typography, Button, Link } from "@material-ui/core";
 import cartService from "../../service/cart.service";
 import { useAuthContext } from "../../context/auth";
 import { toast } from "react-toastify";
 import orderService from "../../service/order.service";
 import Shared from "../../utils/shared";
 import { useCartContext } from "../../context/cart";
-import { cartStyle } from "./style";
-import { Link, useNavigate } from "react-router-dom";
-const Scart=() =>{
+import { useNavigate } from "react-router-dom";
+
+const Cart = () => {
   const authContext = useAuthContext();
   const cartContext = useCartContext();
   const navigate = useNavigate();
-  const classes = cartStyle();
+
   const [cartList, setCartList] = useState([]);
   const [itemsInCart, setItemsInCart] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const classes = cartStyle();
 
   const getTotalPrice = (itemList) => {
     let totalPrice = 0;
@@ -51,7 +54,9 @@ const Scart=() =>{
     if (quantity === 0) {
       toast.error("Item quantity should not be zero");
       return;
-    }try {
+    }
+
+    try {
       const res = await cartService.updateItem({
         id: cartItem.id,
         userId: cartItem.userId,
@@ -101,78 +106,45 @@ const Scart=() =>{
   };
 
   return (
-  <div className='classes.cartWrapper'>
-    <div>
-    <Typography style={{marginTop:25,marginBottom:75,textAlign:"center",fontSize:20,textDecoration:"underline red 2px",textUnderlinePosition:"under"}}>Cart Page</Typography>
-    <div 
-    style={{ display:"flex",
-    justifyContent:"space-between",
-    alignItems:"center",
-    marginBottom:10,
-    fontWeight:500}}>
-          <Typography variant="h2" style={{
-            paddingBottom:0,
-            marginBottom:0,
-            fontSize:18,
-          }}>
+    <div className={classes.cartWrapper}>
+      <div className="container">
+        <Typography variant="h1">Cart page</Typography>
+        <div className="cart-heading-block">
+          <Typography variant="h2">
             My Shopping Bag ({itemsInCart} Items)
           </Typography>
-          <div>Total price: {totalPrice}</div>
+          <div className="total-price">Total price: {totalPrice}</div>
         </div>
-        <div>
-        <div  style={{marginBottom:35,marginTop:0,marginRight:0}}>
+        <div className="cart-list-wrapper">
           {cartList.map((cartItem) => {
-            return(
-    <div style={{display:"flex" ,justifyContent:"space-between",
-
-    margin:"auto",
-     width: 900,
-     height: 309,
-    flexDirection:"column",
-  border:1,borderStyle:"solid",borderColor:"rgba(0,0,0,0.2)",marginTop:30,
-   padding:50,borderRadius:5}} key={cartItem.id}>
-    <CardMedia
-        component="img"
-        sx={{ maxWidth:100,minHeight:100,marginBottom:10,flexBasis:100,flexShrink:0 }}
-        image={cartItem.book.base64image}
-        alt="Live from space album cover"
-      />
-   <div style={{marginTop:-26,paddingLeft:2}}>
-                  <div  style={{display:"flex",justifyContent:"space-between"
-                ,marginBottom:10,paddingTop:0}}>
-                    <div style={{marginRight:10}}>
+            return (
+              <div className="cart-list-item" key={cartItem.id}>
+                <div className="cart-item-img">
+                  <Link>
+                    <img src={cartItem.book.base64image} alt="dummy-pic" />
+                  </Link>
+                </div>
+                <div className="cart-item-content">
+                  <div className="cart-item-top-content">
+                    <div className="cart-item-left">
                       <p className="brand">{cartItem.book.name}</p>
-                      <Link style={{ color:colors.primary,
-                 textDecoration:"none",
-                 cursor:"pointer"}}>Cart item name</Link>
+                      <Link>Cart item name</Link>
                     </div>
-                    <div style={{marginTop:10}}>
-                      <span style={{textAlign:"right"}}>
+                    <div className="price-block">
+                      <span className="current-price">
                         MRP &#8377; {cartItem.book.price}
                       </span>
                     </div>
                   </div>
-                  <div  style={{display:"flex",
-            justifyContent: "space-between"}}>
-                    <div className="qty-group" style={{display:"flex"}}>
-                      <Button 
+                  <div className="cart-item-bottom-content">
+                    <div className="qty-group">
+                      <Button
                         className="btn pink-btn"
                         onClick={() => updateQuantity(cartItem, true)}
                       >
                         +
                       </Button>
-                      <span style={{
-                          border:1,
-                          borderStyle:"solid",
-                          display:"inline",
-                          minWidth:20,
-                          textAlign:"center",
-                          padding:2,
-                          height:48,
-                          marginRight:10,
-                          marginLeft:10,
-                          marginTop:0
-                      }}>{cartItem.quantity}</span>
+                      <span className="number-count">{cartItem.quantity}</span>
                       <Button
                         className="btn pink-btn"
                         onClick={() => updateQuantity(cartItem, false)}
@@ -182,28 +154,19 @@ const Scart=() =>{
                     </div>
                     <Link onClick={() => removeItem(cartItem.id)}>Remove</Link>
                   </div>
-           </div>
-            </div>
-            );})} 
-         </div>
-           <div className='btn-wrapper' 
-           style={{
-            display:"flex",
-            
-           marginLeft:307,
-            minWidth:20,
-            padding:0,
-            height:80,
-            
-           }}>
-             <Button className='btn pink-btn'
-             onClick={placeOrder}>
-               Place order
-             </Button>
-           </div>
-</div>
-   </div>
-   </div>
-      );
-      };
-    export default Scart;
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="btn-wrapper">
+          <Button className="btn pink-btn" onClick={placeOrder}>
+            Place order
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Cart;

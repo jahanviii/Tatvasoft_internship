@@ -150,6 +150,12 @@ const productListingStyle = makeStyles((theme) => ({
               textOverflow: "ellipsis",
               overflow: "hidden",
             },
+            // "& .container":{
+            //   textAlign:"center",
+            //   fontSize:22,
+            //   textDecoration:"underline red 4px"
+              
+            // },
             "& .price": {
               margin: "20px 0",
               fontSize: "18px",

@@ -12,6 +12,8 @@ import loader from "../src/assets/images/loader.gif";
 import { CartWrapper } from "./context/cart";
 import Header from "./components/header";
 
+
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -25,6 +27,8 @@ const App = () => {
               <div className="wrapper">
                 <Header />
                 <main>
+               
+                  
                   <MainNavigation />
                 </main>
                 <Footer />
