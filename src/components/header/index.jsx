@@ -4,7 +4,6 @@ import { headerStyle } from "./style";
 import List from "@material-ui/core/List";
 import AppBar from "@material-ui/core/AppBar";
 import ListItem from "@material-ui/core/ListItem";
-import siteLogo from "../../assets/images/site-logo.svg";
 import cartIcon from "../../assets/images/cart.png";
 import searchIcon from "../../assets/images/search.png";
 import { TextField, Button } from "@material-ui/core";
@@ -86,7 +85,7 @@ const Header = () => {
             <div className="header-wrapper">
               <div className="logo-wrapper">
                 <Link to="/" className="site-logo" title="logo">
-                  <img src={siteLogo} alt="logo" />
+                 <h2>Book Junction</h2>
                 </Link>
               </div>
               {/* links */}

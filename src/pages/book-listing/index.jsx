@@ -1,26 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, FormControl, Grid, InputLabel, MenuItem, Pagination, Select, TextField } from '@mui/material';
+import React, { useEffect, useMemo, useState } from "react";
+import Pagination from "@material-ui/lab/Pagination";
+import { productListingStyle } from "./style";
+import { materialCommonStyles } from "../../utils/materialCommonStyles";
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Grid,
+} from "@material-ui/core";
 import { useAuthContext } from "../../context/auth";
 import { toast } from "react-toastify";
 import Shared from "../../utils/shared";
 import { useCartContext } from "../../context/cart";
 import { defaultFilter } from "../../constant/constant";
 import bookService from "../../service/book.service";
-import { productListingStyle } from "./style";
 import categoryService from "../../service/category.service";
-import { materialCommonStyles } from "../../utils/materialCommonStyles";
 
-const Book = ()=>{
-  const materialClasses = materialCommonStyles();
+const BookList = () => {
+  const authContext = useAuthContext();
   const cartContext = useCartContext();
   const classes = productListingStyle();
-  const [sortBy, setSortBy] = useState();
-  const [categories, setCategories] = useState([]);
-  const [filters, setFilters] = useState(defaultFilter);
+  const materialClasses = materialCommonStyles();
   const [bookResponse, setBookResponse] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -28,6 +31,10 @@ const Book = ()=>{
     items: [],
     totalItems: 0,
   });
+  const [categories, setCategories] = useState([]);
+  const [sortBy, setSortBy] = useState();
+  const [filters, setFilters] = useState(defaultFilter);
+
   useEffect(() => {
     getAllCategories();
   }, []);
@@ -66,7 +73,7 @@ const Book = ()=>{
     }
     return [];
   }, [categories, bookResponse]);
- 
+
   const addToCart = (book) => {
     Shared.addToCart(book, authContext.user.id).then((res) => {
       if (res.error) {
@@ -94,16 +101,13 @@ const Book = ()=>{
     setBookResponse({ ...bookResponse, items: bookList });
   };
 
-  // const [filters, setFilters] = useState(defaultFilter);
-  const authContext = useAuthContext();
-    return (
-      <>
-      <div className='con' style={{textAlign:"center",fontSize:35,textDecoration:"underline",textDecorationColor:"red",textDecorationStyle:"solid 2px"
-    ,textUnderlinePosition:"under"}}>BookListing   </div>
-      <div className={classes.productListWrapper}>
-      <div container className="title-wrapper">
+  return (
+    <div className={classes.productListWrapper}>
+      <div className="container">
+        <Typography variant="h1">Book Listing</Typography>
+        <Grid container className="title-wrapper">
           <Grid item xs={6}>
-            <Typography variant="h5">
+            <Typography variant="h2">
               Total
               <span> - {bookResponse.totalItems} items</span>
             </Typography>
@@ -125,10 +129,9 @@ const Book = ()=>{
               }}
             />
           </div>
-          </div>
           <FormControl className="dropdown-wrapper" variant="outlined">
             <InputLabel htmlFor="select">Sort By</InputLabel>
-            <Select 
+            <Select
               className={materialClasses.customSelect}
               MenuProps={{
                 classes: { paper: materialClasses.customSelect },
@@ -140,32 +143,24 @@ const Book = ()=>{
               <MenuItem value="z-a">z - a</MenuItem>
             </Select>
           </FormControl>
-      
-      <div style={{alignItems:"center",flexWrap:"wrap",justifyContent:"center",display:"flex",flexDirection:"row",marginLeft:14}}>
-        {books.map((book,index) =>(
-        <Card sx={{maxWidth:300,margin:2,marginTop:4,border:"none" }}>
-        <CardActionArea style={{height:"46rem"}}>
-          <CardMedia style={{height:"20rem"}}
-            component="img"className='mt-3'
-            image={book.base64image}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {book.name}
-            </Typography>
-            <Typography>
-              {book.category}
-            </Typography>
-            <Typography variant="h2" color="text.secondary" style={{fontSize: "16px",
-              height: "40px",
-              display: "-webkit-box",
-              "-webkit-line-clamp": 2,
-              "-webkit-box-orient": "vertical",
-              textOverflow: "ellipsis",
-              overflow: "hidden",}}>
-          {book.description}
-            </Typography>
-            <p className="price">
+        </Grid>
+        <div className="product-list-wrapper">
+          <div className="product-list-inner-wrapper">
+            {books.map((book, index) => (
+              <div className="product-list" key={index}>
+                <div className="product-list-inner">
+                  <em>
+                    <img
+                      src={book.base64image}
+                      className="image"
+                      alt="dummyimage"
+                    />
+                  </em>
+                  <div className="content-wrapper">
+                    <Typography variant="h3">{book.name}</Typography>
+                    <span className="category">{book.category}</span>
+                    <p className="description">{book.description}</p>
+                    <p className="price">
                       <span className="discount-price">
                         MRP &#8377; {book.price}
                       </span>
@@ -179,26 +174,25 @@ const Book = ()=>{
                       </span>
                       <span className="MuiTouchRipple-root"></span>
                     </button>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-
-        ))}
-    
-        </div>  
-      <div className="pagination-wrapper" >
-      <Pagination
-        count={bookResponse.totalPages}
-        page={filters.pageIndex}
-        onChange={(e, newPage) => {
-          setFilters({ ...filters, pageIndex: newPage });
-        }}
-      />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pagination-wrapper">
+          <Pagination
+            count={bookResponse.totalPages}
+            page={filters.pageIndex}
+            onChange={(e, newPage) => {
+              setFilters({ ...filters, pageIndex: newPage });
+            }}
+          />
+        </div>
       </div>
     </div>
-      </>
-    
-    )
+  );
+};
 
-}
-export default Book;
+export default BookList;
+////////////////////////////////////////////////

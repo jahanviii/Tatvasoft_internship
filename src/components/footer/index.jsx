@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { footerStyle } from "./style";
-import siteLogo from "../../assets/images/site-logo.svg";
 
 const Footer = () => {
   const classes = footerStyle();
@@ -13,11 +12,11 @@ const Footer = () => {
             <div className="text-center">
               <div className="footer-logo">
                 <Link to="/" title="logo">
-                  <img src={siteLogo} alt="sitelogo" />
+                  <h4>Made with Love</h4>
                 </Link>
               </div>
               <p className="copyright-text">
-                © 2015 Tatvasoft.com. All rights reserved.
+                © 2024 
               </p>
             </div>
           </div>
